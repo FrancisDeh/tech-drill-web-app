@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset = "utf-8">
+	<title>Sign In Page</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src = "js/jquery.min.js"></script>
+	<script type="text/javascript" src = "js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src = "js/getTime.js"></script>
+	<script type="text/javascript" src = "js/functions.js"></script>
+
+	<style type="text/css">
+	#audioBank{
+	margin-top:80px;
+	margin-left: 5px;
+	}
+	.audioBank {
+		opacity:0;
+	}
+
+</style>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		/*Variable to hold whether user has played a particular 
+		level in the puzzle game, if it is set to true, then the level has been played, system should enable sortable and shuffle the images*/
+		var playedGameLevel1 = false;
+		var playedGameLevel2a = false;
+		var playedGameLevel2b = false;
+		var playedGameLevel3a = false;
+		var playedGameLevel3b = false;
+		var allLevelsShuffled = false;
+
+		/*variable to store number of devices learnt by user*/
+		var numberOfDevices = 0;
+
+		/*Total score*/
+		var totalScores = 0;
+		/*Level Scores*/
+		var level1Score = 0;
+		var level2Score = 0;
+		var level3Score = 0;
+
+		/*global variable to hold the full name of user*/
+		var fullname = "";
+
+
+
+
+		/*Hide all elements, show credential screen and title bar*/
+
+		/*Set time for the Panel when visible*/
+		//setting the time
+			function displayTime() {
+			$('.time').text(getTime(true));
+		}
+			displayTime();
+		setInterval(displayTime,1000);//End of time
+
+		/*hide music icon*/
+		hideMusicIcon();
+		/*show first screen*/
+		welcomeScreen();
+
+		
+		/*play background Sound*/
+		playBackgroundSound();
+
+		/*A tool tip on music icon indicating volume control*/
+		$("#music_icon").tooltip();
+		/*A tool tip on each option menu*/
+		$('.leftOptionMenu').tooltip();
+		$('.middleOptionMenu').tooltip();
+		$('.rightOptionMenu').tooltip();
+		/*A tool tip for back to first screen icon*/
+		$('.backToFirstScreenIcon').tooltip();
+
+		/*A tooltip for Name and score column*/
+		$('#nameOfLearner').tooltip();
+		/*A tooltip for Back to option screen icon*/
+		$('.backToOptionScreenIcon').tooltip();
+		/* tooltip menu icon for image slides*/
+		$('.menuIconForImageSlide').tooltip();
+		/*image slide tooltips*/
+		$('.firstLevelSceneItems table').tooltip();
+		$('.secondLevelSceneItemsUp table').tooltip();
+		$('.secondLevelSceneItemsDown table').tooltip();
+		$('.thirdLevelSceneItemsUp table').tooltip();
+		$('.thirdLevelSceneItemsDown table').tooltip();
+		/*image slide/game info tooltip*/
+		$('.gameInfo').tooltip();
+		/*Classroom bonus mark info tooltip*/
+		$('.navRightOutput').tooltip();
+		$('.navLeftInput').tooltip();
+
+		/*Music icon can be clicked to display volume control*/
+		$("#music_icon").click(function(){
+			$("#audioBank").toggleClass('audioBank');
+			/*audioBank is an internal class that controls the visibility of the volume control*/
+		});
+
+		/*Submit button called Register, prevent submit action*/
+		$("#registerButton").click(function(evt){
+			evt.preventDefault(); //Prevent submit action
+			 fullname = $('input[type="text"]').val();//Extract name from text box
+			/*Check if content from text box is null or has name*/
+			if( fullname !== ""){
+				/*if full name is not null, set name at the player's full name column, which is currently hidden*/
+				$("#name").text(fullname);
+				/*Empty the input box*/
+				$('input[type="text"]').val(' ');
+				/*if full name is not null, move to next screen*/
+				optionScreen();
+
+		} else {
+			/*if full name is null, blink or pulsate the submit button*/
+			$(this).effect('pulsate', 1000);
+		}
+		});
+		/*Dialog Boxes for the three options menu*/
+$('#enterClassroomDialogConfirm').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Yes": function(){
+				/*Hide option menu and back icon, then load class room screen*/
+				loadStudentSelectedScreen(1)
+				$(this).dialog('close');
+			},
+			"No": function(){
+				$(this).dialog('close');
+			}
+			}
+		});
+
+		$('#playPuzzleDialogConfirm').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Yes": function(){
+				/*check if first level has been played before, if it has, then check if all levels have been shuffled, if not, shuffle the next level, and activate the next level, then execute the next options*/
+				if(playedGameLevel1 == true && allLevelsShuffled == false){
+					activateFirstLevel();
+					shuffleFirstLevel();
+				}
+
+				/*Hide option menu and back icon, then load image slide screen*/
+				loadStudentSelectedScreen(2)
+				$(this).dialog('close');
+			},
+			"No": function(){
+				$(this).dialog('close');
+			}
+			}
+		});
+
+		$('#takeAQuizDialogConfirm').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Yes":function(){
+				/*Hide option menu and back icon, then load image quiz screen*/
+				loadStudentSelectedScreen(3)
+				/*check to see if total score is greater than 45, if true award congrats message*/
+				if(totalScores >= 40){
+					$('.nameToAward').text(fullname + ",");
+					showCongratsMessage();
+				}
+				$(this).dialog('close');
+			},
+			"No": function(){
+				$(this).dialog('close');
+			}
+			}
+		});
+/*End of dialog box for the three options menu*/
+/*Dialog box for confirming user wants to quit the class room*/
+$('.quitClassroomDialog').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Yes":function(){
+				/*Hide option menu and back icon, then load image quiz screen*/
+				onBackToOptionScreenIconClick();
+				$(this).dialog('close');
+			},
+			"No": function(){
+				$(this).dialog('close');
+			}
+			}
+		});
+
+/*Dialog box for confirming if user wants to quit the drill session*/
+$('.confirmationDialogBoxForImageSlide').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Exit":function(){
+				/*Hide option menu and back icon, then load image option screen*/
+				onBackFromImageSlideQuiz();
+				$(this).dialog('close');
+			},
+			"Cancel": function(){
+				$(this).dialog('close');
+			}
+			}
+		});
+
+/*Dialog box to indicate that user has won the game*/
+$('.winGameDialog').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Cancel":function(){
+				
+			
+				$(this).dialog('close');
+			},
+			"Next Level": function(){
+				/*check if first level has been played before, if it has, then check if all levels have been shuffled, if not, shuffle the next level, and activate the next level, then execute the next options*/
+				if(playedGameLevel2a == true && allLevelsShuffled == false){
+					activateSecondLevelUp();
+					activateSecondLevelDown();
+					shuffleSecondLevel();
+				}
+
+				/*load next section a*/
+				loadImageSlideLevel2a();
+				/*Close the dialog box*/
+				$(this).dialog('close');
+			}
+			}
+		});
+
+$('.winGameDialog2').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Cancel":function(){
+				
+			
+				$(this).dialog('close');
+			},
+			"Next Level": function(){
+				/*check if first level has been played before, if it has, then check if all levels have been shuffled, if not, shuffle the next level, and activate the next level, then execute the next options*/
+				if(playedGameLevel3a == true && allLevelsShuffled == false){
+					activateThirdLevelUp();
+					activateThirdLevelDown();
+					shuffleThirdLevel();
+				}
+
+				/*load next section 3a*/
+				loadImageSlideLevel3a();
+				/*Close the dialog box*/
+				$(this).dialog('close');
+			}
+			}
+		});
+
+$('.winGameDialog3').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			"Exit":function(){
+				/*shuffle all images*/
+				shuffleAllImages();
+				allLevelsShuffled = true;
+				/*activate all sortable*/
+				activateAllSortables();
+				/*Close all views and move to the option screen*/
+			/*Hide option menu and back icon, then load image option screen*/
+				onBackFromImageSlideQuiz();
+				$(this).dialog('close');
+			},
+			"Replay": function(){
+				/*Enable all disabled sortable*/
+				activateAllSortables();
+
+				/*Shuffle all cards*/
+				shuffleAllImages();
+
+				/*hide current screen*/
+				prepareReplayPuzzleScreen();
+				/*take user to first screen*/
+				loadReplayImageSlideLevel1();
+
+				/*Close the dialog box*/
+				$(this).dialog('close');
+			}
+			}
+		});
+/*End of win game dialogs*/
+/*Bonus mark dialog box*/
+$('.bonusMarkDialog').dialog({
+			autoOpen: false,
+			modal: true,
+			draggable: false,
+			show: 'scale',
+			hide: 'explode',
+			buttons: {
+			
+			"Continue": function(){
+				/*set bonus mark to score arena*/
+				//first get total score
+			totalScores = totalScores + 20;
+				
+				$('.bonusScore').text('20');
+				//set total score
+				$('.totalScore').text(totalScores);
+				$(this).dialog('close');
+			}
+			}
+		});
+
+
+
+/*Click events to open dialog boxes for option menu*/
+$('.leftOptionMenu').click(function(){
+	$('#enterClassroomDialogConfirm').dialog('open');
+});
+
+$('.middleOptionMenu').click(function(){
+	$('#playPuzzleDialogConfirm').dialog('open');
+});
+
+$('.rightOptionMenu').click(function(){
+	$('#takeAQuizDialogConfirm').dialog('open');
+});
+
+/*End of Click events to open option menu dialog boxes*/
+
+/*Click events for back to first screen icon*/
+$('.backToFirstScreenIcon').click(function(){
+	onBackToFirstScreenIconClick();
+});
+
+/*Click events for back to option screen icon*/
+$('.backToOptionScreenIcon').click(function(){
+	$('.quitClassroomDialog').dialog('open');
+});
+/*click event to display dialog box for image slide*/
+$('.menuIconForImageSlide').click(function(){
+$('.confirmationDialogBoxForImageSlide').dialog('open');
+});
+
+/*click events for exit score arena*/
+$('.exitScoreArena').click(function(){
+	onExitScoreArenaIconClick();
+});
+
+
+/*Tutorial Screen Image Display*/
+/*This function selects all image links located in the 
+navLeftInput panel*/
+$('.navLeftInput a').click(function(evt){
+	evt.preventDefault();//prevents page from
+	//sending user to another page since it is a link
+	/*This code gets the href or location of 
+	the image to be displayed*/
+	var imgPath = $(this).attr('href');
+
+	/*The href of the old image currently displayed*/
+	var oldImage = $('.navCenterDisplay img');
+
+	/*Create a new image with the href stored
+	earlier*/
+	var newImage = $('<img src="' + imgPath +'"  height = "90%" width = "60%">');
+
+	//hide the new image
+	newImage.hide();
+
+	/*place  the new image in the navCenterDisplay page*/
+	$('.navCenterDisplay').prepend(newImage);
+	/*Show the new Image*/
+	newImage.show('drop', 2000);
+
+	/*Fade out the old image and remove it*/
+	oldImage.hide(2000, function(){
+		$(this).remove();
+	});
+/*keep track of the number of times user clicked on devices and award bonus mark*/
+numberOfDevices++;
+if(numberOfDevices == 15){
+
+$('.bonusMarkDialog').dialog('open');
+
+}
+
+});
+
+/*This function selects all image links located in the 
+navLeftOutput panel*/
+$('.navRightOutput a').click(function(evt){
+	evt.preventDefault();//prevents page from
+	//sending user to another page since it is a link
+	/*This code gets the href or location of 
+	the image to be displayed*/
+	var imgPath = $(this).attr('href');
+
+	/*The href of the old image currently displayed*/
+	var oldImage = $('.navCenterDisplay img');
+
+	/*Create a new image with the href stored
+	earlier*/
+	var newImage = $('<img src="' + imgPath +'" height = "90%" width = "60%">');
+
+	//hide the new image
+	newImage.hide();
+
+	/*place  the new image in the navCenterDisplay page*/
+	$('.navCenterDisplay').prepend(newImage);
+	/*Show the new Image*/
+	newImage.show('drop', 2000);
+
+	/*Fade out the old image and remove it*/
+	oldImage.hide(2000, function(){
+		$(this).remove();
+	});
+/*keep track of the number of times user clicked on devices and award bonus mark*/
+numberOfDevices++;
+if(numberOfDevices == 15){
+
+$('.bonusMarkDialog').dialog('open');
+
+}
+
+});
+
+/*Sortable elements*/
+/*ANSWERS*/
+/*array answer for first level screen for image slide*/
+//answer for first screen
+var answer = ['h','m','r'].join('');
+/*answer for second screen part a*/
+var answer2a = ['m', 'c', 'w'].join('');
+/*answer for second screen part b*/
+var answer2b = ['p', 'r' , 's'].join('');
+/*answer for the third screen part a*/
+var answer3a = ['s', 'g', 'd'].join('');
+/*answer for the third scene part b*/
+var answer3b = ['m', 'l', 'b'].join('');
+
+function coordinates(event,ui) {
+    console.log(ui.position);
+}
+/*sortable images for first screen*/
+$('.firstLevelSceneImages').sortable({
+	axis: 'x',
+	containment: 'parent',
+	stop : function (event, ui) {
+      if ($(this).sortable("toArray").join('') === answer) {
+        
+        /* Display Dialog Box with options */
+        $('.winGameDialog').dialog('open');
+        /*show handshake icon inside the dialog*/
+        showHandshakeIcon();
+        /*set score to panel*/
+        setScore(5);
+ /*set score if only game has not been played before*/
+if (playedGameLevel1 == false){
+        /*set score to score arena*/
+level1Score = 5;
+
+$('.levelOneScore').text(level1Score);
+totalScores = totalScores + level1Score;
+$('.totalScore').text(totalScores);
+}
+/*set true indicating that this level has been Played*/
+				playedGameLevel1 = true;
+
+        /*Disable the sortable functionality*/
+        $(this).sortable("disable");
+      }
+    },
+    sort : coordinates
+});
+
+/*sortable images for second screen a*/
+$('.secondLevelSceneImagesUp').sortable({
+	axis: 'x',
+	containment: 'parent',
+	stop : function (event, ui) {
+      if ($(this).sortable("toArray").join('') === answer2a) {
+
+
+
+      	/*load next set of images, not dialog*/
+       loadImageSlideLevel2b();
+       //this loads the next set of image slides for the user to solve. 
+       
+        /*set score*/
+        setScore(10); 
+        /*set score to score arena*/
+        /*set score if only game has not been played before*/
+        if(playedGameLevel2a == false){
+level2Score = 5;
+$('.levelTwoScore').text(level2Score);
+totalScores = totalScores + 5;
+$('.totalScore').text(totalScores);
+}
+        /*set true indicating that this level has been Played*/
+				playedGameLevel2a = true;
+        /*Disable the sortable functionality*/
+        $(this).sortable("disable");
+      }
+    },
+    sort : coordinates
+});
+
+/*Sortable images for the second screen b*/
+$('.secondLevelSceneImagesDown').sortable({
+	axis: 'x',
+	containment: 'parent',
+	stop : function (event, ui) {
+      if ($(this).sortable("toArray").join('') === answer2b) {
+
+      	/*call the win dialog for level 2b*/
+       $('.winGameDialog2').dialog('open');
+       /*show handshake icon inside the dialog*/
+        showHandshakeIcon();
+        /*set score*/
+        setScore(15);
+
+/*set score if only game has not been played before*/
+if(playedGameLevel2b == false){
+ /*set score to score arena*/
+ level2Score = level2Score + 5;
+$('.levelTwoScore').text(level2Score);
+totalScores = totalScores + 5;
+$('.totalScore').text(totalScores);
+}
+
+/*set true indicating that this level has been Played*/
+				playedGameLevel2b = true;
+
+        /*Disable the sortable functionality*/
+        $(this).sortable("disable");
+      }
+    },
+    sort : coordinates
+});
+
+/*sortable images for third screen up*/
+$('.thirdLevelSceneImagesUp').sortable({
+	axis: 'x',
+	containment: 'parent',
+	stop : function (event, ui) {
+      if ($(this).sortable("toArray").join('') === answer3a) {
+
+      	/*Call the next set of images for user*/
+      	loadImageSlideLevel3b();
+
+        /*set score*/
+        setScore(20);
+
+       
+ /*set score to score arena*/
+ /*set score if only game has not been played before*/
+ if(playedGameLevel3a == false){
+ level3Score = level3Score + 5;
+$('.levelThreeScore').text(level3Score);
+totalScores = totalScores + 5;
+$('.totalScore').text(totalScores);
+}
+
+/*set true indicating that this level has been Played*/
+				playedGameLevel3a = true;
+
+        /*Disable the sortable functionality*/
+        $(this).sortable("disable");
+      }
+    },
+    sort : coordinates
+});
+
+/*sortable images for third scene down*/
+$('.thirdLevelSceneImagesDown').sortable({
+	axis: 'x',
+	containment: 'parent',
+	stop : function (event, ui) {
+      if ($(this).sortable("toArray").join('') === answer3b) {
+
+      	/*call the win dialog for level 2b*/
+       $('.winGameDialog3').dialog('open');
+       /*show handshake icon inside the dialog*/
+        showHandshakeIcon();
+
+
+
+        /*set score*/
+        setScore(25);
+
+/*set score if only game has not been played before*/
+ /*set score to score arena*/
+ if(playedGameLevel3b == false){
+ level3Score = level3Score + 5;
+$('.levelThreeScore').text(level3Score);
+totalScores = totalScores + 5;
+$('.totalScore').text(totalScores);
+}
+/*set true indicating that this level has been Played*/
+				playedGameLevel3b = true;
+
+        /*Disable the sortable functionality*/
+        $(this).sortable("disable");
+      }
+    },
+    sort : coordinates
+});
+		
+	});//End of ready function
+
+
+
+
+	</script>
+</head>
+<body>
+	<header id = "titleBar">
+		<h1>Tech Drill and Tutorials Web App</h1>
+	</header>
+
+	<!--Audio Files will be placed here dynamically-->
+	<nav id = "audioBank" class = "audioBank">
+	</nav>
+	<!--Music Icon to control volume-->
+	<i class = "fa fa-volume-up fa-3x" id = "music_icon" title="Volume Control"></i>
+
+	<article>
+		
+<!--Welcome Screen-->
+		<aside class = "overlay" id = "credentialScreen">
+			<p class = "intro">Welcome to <strong>Tech Drill and Tutorials Web App.</strong> Its all about ICT. Enter your <strong>full name</strong> and click the 
+			<strong>Register</strong> button.
+			<br>
+			
+		</p>
+			<form class="input_fullname">
+			<i class ="fa fa-child fa-3x nameIcon" aria-hidden = "true"></i>
+				<input type = "text" placeholder = "Enter your name" autofocus><br>
+				<input type = "submit" value="Register" class = "register-nav" id = "registerButton">
+			</form> 
+			
+			
+			
+		</aside>
+<!--End of Welcome Screen-->
+
+<!--Options Screen-->
+
+	<nav class = "name_of_learner" id = "nameOfLearner" title = "Name, Score and Time Panel">
+		<i class = "fa  fa-user-circle-o fa-1x" aria-hidden = "true"></i><span class = "name" id = "name"></span>
+		<i class = "fa fa-balance-scale fa-1x" aria-hidden = "true"></i><span class="score" id = "score">Inactive</span>
+		
+		<i class = "fa fa-clock-o  fa-1x" aria-hidden = "true"></i><span class = "time"></span>
+	</nav>
+
+	<!--Back to first Screen Icon-->
+	<div class = "backToFirstScreenIcon" title = "Back To First Screen">
+	<i class = "fa fa-chevron-circle-left  fa-3x" aria-hidden = "true"></i>
+	</div>
+
+	<!--Tutorial and Drill options-->
+
+	<section class = "outerWrapper" id = "outerWrapper">
+		<div class = "leftOptionMenu" title="Click to Enter Classroom">
+		<figure>
+			<!--<img src = "option_menu_images/option_e.jpg" >-->
+			<i class = "fa fa-group fa-5x option_menu_icon" aria-hidden = "true"></i>
+			<hr>
+			<figcaption class = "optionMenuDescription">
+				Enter the classroom and learn about all the various categories of Computer Devices.
+			</figcaption>
+			
+		</figure>
+		<span class="optionMenuTitle">
+			<i class = "fa fa-hand-o-right fa-2x" aria-hidden = "true"></i>
+			Computer Devices Tutorial
+			</span>
+		
+		</div>
+		<section class = "innerWrapper">
+			<div class="middleOptionMenu" title="Click to play Puzzle">
+			<figure>
+				<!--<img src="option_menu_images/option_f.jpg">-->
+				<i class = "fa fa-desktop fa-5x option_menu_icon" aria-hidden = "true"></i>
+				<hr>
+				<figcaption class = "optionMenuDescription">
+					Drag images of Computer Devices to match their names. Think you are a genius? Give it a try! 
+				</figcaption>
+				
+			</figure>
+			<span class="optionMenuTitle">
+				<i class = "fa fa-hand-o-right fa-2x" aria-hidden = "true"></i>
+				Computer Devices Puzzle
+				</span>
+			</div>
+
+			<div class="rightOptionMenu" title="Click to View Scores">
+			<figure>
+				<!--<img src="option_menu_images/option_c.jpg">-->
+				<i class = "fa fa-balance-scale fa-5x option_menu_icon" aria-hidden = "true"></i> 
+				<hr>
+				<figcaption class = "optionMenuDescription">
+					View all the scores you have accumulated after the tutorial session and the puzzle game. Replayed sessions will not be recorded!
+				</figcaption>
+
+			</figure>
+			<span class="optionMenuTitle">
+				<i class = "fa fa-hand-o-right fa-2x" aria-hidden = "true"></i>
+				Score Arena
+				</span>
+			</div>
+		</section>
+		
+	</section>
+
+	<!--Dialog boxes to confirm selection made by user-->
+	<div title = "Prove your certainty" id = "enterClassroomDialogConfirm">
+	<p><b>Are you sure you want to take</b> <strong>Computer Devices Tutorial?</strong></p>
+	</div>
+
+	<div title="Prove your certainty" id = "playPuzzleDialogConfirm">
+		<p><b>Are you sure you want to take</b> <strong>Computer Devices Puzzle?</strong>
+	</div>
+
+	<div title="Prove your certainty" id = "takeAQuizDialogConfirm">
+		<p><b>Are you sure you want to </b> <strong>View your Scores</strong>
+	</div>
+<!--End of Options Screen-->
+
+<!--Class Room Tutorial Interface-->
+
+<!--Dialog box to inform user that bonus mark has been awarded-->
+<div class="bonusMarkDialog">
+	<strong style="text-align: center;">Hurray!</strong>
+	<p>You have a bonus mark of 20 for learning 15 devices. Keep it up</p>
+</div>
+
+<!--Back to Main Screen Icon-->
+	<div class = "backToOptionScreenIcon" title = "Back to Option Screen">
+	<i class = "fa fa-window-close  fa-3x" aria-hidden = "true"></i>
+	</div>
+
+	<!--Dialog box to confirm user really wants to quit the classroom session-->
+	<div class="quitClassroomDialog" title="Confirmation Dialog">
+	<p>Do you really want to quit the classroom session?</p>
+		
+	</div>
+
+<!--Holds the name of input devices, an it is located at the left side of the screen-->
+<nav class = "navLeftInput" title="Learn at least 10 devices and earn a bonus mark of 10">
+	<ul>
+		<li class = "categoryTitle">Input Devices</li>
+		<li><a href="images/Input/mouse_with_cord.png">Mouse with Cord</a></li>
+		<li><a href="images/Input/remote_control_b.png">Remote Control</a></li>
+		<li><a href="images/Input/wireless_mouse.png">Cordless Mouse</a></li>
+		<li><a href="images/Input/keyboard.jpg">Keyboard</a></li>
+		<li><a href="images/Input/digital_camera.jpg">Digital Camera</a></li>
+		<li><a href="images/Input/microphone.png">Microphone</a></li>
+		<li><a href="images/Input/gamepad.png">Game Pad</a></li>
+		<li><a href="images/Input/scanner.png">Scanner</a></li>
+		<li><a href="images/Input/webcam.png">Web Cam</a></li>
+		<li><a href="images/Input/barcode_reader.png">Bar Code Reader</a></li>
+		<li><a href="images/Input/collection_1.jpg">Collection 1</a></li>
+		<li><a href="images/Input/collection_2.jpg">Collection 2</a></li>
+	</ul>
+</nav>
+<!--Holds the name of output devices, an it is located at the right side of the screen-->
+<nav class = "navRightOutput" title="Learn at least 5 devices and earn a bonus mark of 10">
+	<ul>
+		<li class="categoryTitle">Output Devices</li>
+		<li><a href="images/Output/image31.png">Digital Watch</a></li>
+		<li><a href="images/Output/printer.png">Printer</a></li>
+		<li><a href="images/Output/projector.jpg">Projector</a></li>
+		<li><a href="images/Output/speakers.jpg">Speaker</a></li>
+		<li><a href="images/Output/lcd.jpg">LCD Monitor</a></li>
+		<li><a href="images/Output/headset.png">Headset</a></li>
+		<li><a href="images/Output/outputdevices.png">Collection 1</a></li>
+	</ul>
+</nav>
+
+<!--Transparent Screen to display images-->
+<nav class = "navCenterDisplay">
+	<!--<img src = "" width="60%" height="90%">-->
+</nav>
+
+<!--End of Class Room Tutorial Interface-->
+
+<!--Image Slide Interface-->
+<!--Back to Main Screen Icon-->
+	<div class = "menuIconForImageSlide" title = "Menu">
+	<i class = "fa fa-windows  fa-3x" aria-hidden = "true"></i>
+	</div>
+
+<!--Help Icon-->
+<div class = "gameInfo" title="Welcome to Help Tip: This game consists of three Levels. Re-arrange 
+devices to match the corresponding names and you win the game. Each set of devices takes 5 points. Level 1 has one set, Level 2 and 3 have two sets each. Enjoy your game!">
+<i class="fa fa-info-circle fa-3x" aria-hidden = "true"></i>
+</div>
+<!--Click event of back to main screen icon displays a dialog box-->
+<div class="confirmationDialogBoxForImageSlide" title="Confirm Exit">
+	<p>To exit the quiz, click <strong>Exit</strong>.</p>
+	<p>Note that your current game will be closed and all progress lost</p>
+</div>
+
+<!--First Level Slide-->
+<!--first level slide contains 3 devices and 3 images that could be
+sorted by the player to win the quiz and move on to the next level-->
+
+
+<!--A table of 3 item names-->
+
+<div class = "firstLevelSceneItems" >
+<table title="Re-arrange Images to match their coreesponding names and win the game">
+	<tr>
+		<th>Headset</th>
+		<th>Mouse with Cord</th>
+		<th>Remote Control</th>
+	</tr>
+</table>
+
+<ul class="firstLevelSceneImages">
+	<li id = "m"><img src = "images/Input/mouse_with_cord.png" height = "100%" width = "100%"></li>
+	<li id = "r"><img src = "images/Input/remote_control_b.png" height="100%" width="100%"></li>
+	<li id = "h"><img src="images/Output/headset.png" height="100%" width="100%"></li>
+
+</ul>
+<br>
+
+</div>
+<!--Dialog box to announce game win and offer options to 
+replay, go to next level or cancel-->
+<div class="winGameDialog" title="Congratulations!">
+
+	<p><strong class = "levelMessage">You have won this level</strong><i class="fa fa-handshake-o fa-5x" aria-hidden = "true"></i><br><span style = "margin-left: 60px;" class="pointsMessage">You have 5 points!</span></p>
+</div>
+<!--End of first level scene-->
+
+<!--Second Level Scene-->
+<!--Second level scene contains 6 items and 6 devices, 3 up and 3 down that could be sorted by the player to win the quiz and move on 
+to the next level-->
+<!--A table of 3 items up and 3 images up-->
+<div class = "secondLevelSceneItemsUp">
+<table title="Re-arrange Images to match their coreesponding names and win the game">
+	<tr>
+		<th>Cordless Mouse</th>
+		<th>Web Cam</th>
+		<th>Digital Watch</th>
+	</tr>
+</table>
+
+<ul class="secondLevelSceneImagesUp">
+	<li id = "w"><img src="images/Output/digital_watch.jpg" height="100%" width="100%"></li>
+	<li id = "m"><img src="images/Input/wireless_mouse.png" height="100%" width="100%"></li>
+	<li id = "c"><img src="images/Input/webcam.png" height="100%" width="100%"></li>
+</ul>
+</div>
+<!--A table of 3 items and 3 images down-->
+<div class = "secondLevelSceneItemsDown">
+<table>
+	<tr>
+		<th>Projector</th>
+		<th>Printer</th>
+		<th>Scanner</th>
+	</tr>
+</table>
+
+<ul class="secondLevelSceneImagesDown">
+	<li id = "s"><img src="images/Input/scanner.png" height="100%" width="100%"></li>
+	<li id = "p"><img src="images/Output/projector.jpg" height="100%" width="100%" ></li>
+	<li id = "r"><img src="images/Output/printer.png" height="100%" width="100%"></li>
+</ul>
+</div>
+
+<!--Dialog box to announce game win and offer options to 
+replay, go to next level or cancel-->
+<div class="winGameDialog2" title="Congratulations!">
+
+	<p><strong class = "levelMessage">You have won this level</strong><i class="fa fa-handshake-o fa-5x" aria-hidden = "true"></i><br><span style = "margin-left: 60px;" class="pointsMessage">You have 10 points!</span></p>
+</div>
+<!--End of second level scene-->
+
+<!--Third level scene-->
+<!--Third level scene contains 4 images up and 4 images down that the user can sort and win the game-->
+
+<!--A table of 4 items and 4 images up-->
+<div class = "thirdLevelSceneItemsUp">
+<table title="Re-arrange Images to match their coreesponding names and win the game">
+	<tr>
+		<th>Speakers</th>
+		<th>Game Pad</th>
+		<th>Digital Camera</th>
+	
+	</tr>
+</table>
+
+<ul class="thirdLevelSceneImagesUp">
+	<li id = "g"><img src="images/Input/gamepad.png" height="100%" width="100%"> </li>
+	<li id = "d"><img src="images/Input/digital_camera.jpg" height="100%" width="100%"></li>
+	<li id = "s"><img src="images/Output/speakers.jpg" height="100%" width="100%"> </li>
+	
+</ul>
+</div>
+<!--A table of 3 items and 3 images down-->
+<div class = "thirdLevelSceneItemsDown">
+<table title="Re-arrange Images to match their coreesponding names and win the game">
+	<tr>
+		<th>Microphone</th>
+		<th>LCD Monitor</th>
+		<th>Bar Code Reader</th>
+		
+	</tr>
+</table>
+
+<ul class="thirdLevelSceneImagesDown">
+	<li id = "b"><img src="images/Input/barcode_reader.png" height="100%" width="100%"></li>
+	<li id = "m"><img src="images/Input/microphone_b.jpg" height="100%" width="100%"></li>
+	<li id = "l"><img src="images/Output/lcd.jpg" height="100%" width="100%"></li>
+	
+</ul>
+</div>
+
+<!--Dialog box to announce game win and offer options to 
+replay, go to next level or cancel-->
+<div class="winGameDialog3" title="Congratulations!">
+
+	<p><strong class = "levelMessage">Game Completed Successfully!</strong><i class="fa fa-smile-o fa-5x" aria-hidden = "true"></i><br><span style = "margin-left: 5px;" class="pointsMessage">You have 25 points in all! Well done!</span></p>
+</div>
+<!--End of Image Slide Interface-->
+
+<!--Score Arena-->
+<!--Back to Option Screen Icon, exit score Arena-->
+	<div class = "exitScoreArena" title = "Back To First Screen">
+	<i class = "fa fa-chevron-circle-left  fa-3x" aria-hidden = "true"></i>
+	</div>
+
+
+
+<div class="scoreArena">
+<nav>
+<h2><i class="fa fa-balance-scale fa-2x" aria-hidden = "true"></i><span class = "arenaTitle">Score Arena</span><i class="fa fa-balance-scale fa-2x" aria-hidden = "true"></i>
+</h2>
+<br>
+<h3><i class="fa fa-group fa-1x" aria-hidden = "true"></i>Classroom Tutorials</h3>
+<p>Bonus Mark for 10 items:<span class = "bonusScore">0</span></p>
+<br>
+<h3><i class="fa fa-desktop fa-1x" aria-hidden = "true"></i>Devices Puzzle Game</h3>
+<p>Level 1 (3 items): <span class="levelOneScore">0</span></p>
+<p>Level 2 (6 items): <span class="levelTwoScore">0</span></p>
+<p>Level 3 (6 items): <span class="levelThreeScore">0</span></p>
+<p id = "totalScore">Total Score__<i class="fa fa-hand-o-right fa-2x" aria-hidden = "true">
+</i><span class="totalScore">0</span></p>
+
+<!--Congratulate user if total score is greater than 45-->
+<p class="congrats" style="color: yellow; margin-top: 10px;">
+<i class="fa fa-flag-checkered fa-1x" aria-hidden = "true" style=" color: rgb(135,206,250);"></i>
+Congrats <span class="nameToAward" style="color: white"></span> You have attained the pass mark!
+<i class="fa fa-flag-checkered fa-1x" aria-hidden = "true" style=" color: rgb(135,206,250);"></i>
+</p>
+
+</nav>
+
+</div>
+
+	</article>
+</body>
+</html>

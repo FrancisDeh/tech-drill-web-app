@@ -1,0 +1,999 @@
+/* reset browser styles */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1.2;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+} 
+ol { 
+	padding-left: 1.4em;
+	list-style: decimal;
+}
+ul {
+	padding-left: 1.4em;
+	list-style: square;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+/* end reset browser styles */
+
+
+/*Stylesheet for the index.html file*/
+
+/*Fonts*/
+@font-face {
+	font-family: "Bleeding Cowboys";
+	src: url("../fonts/Bleeding_Cowboys.ttf") format("truetype");
+
+}
+@font-face {
+	font-family: "Modern Pictogram";
+	src: url("../fonts/morden_pics/modernpics-webfont.ttf") format("truetype");
+}
+@font-face{
+	font-family:"Fiolex Girls";
+	src: url("../fonts/Fiolex_Girl.ttf") format("truetype");
+}
+/*End of Fonts*/
+
+html {
+	width: 100%;
+	height: 100%;
+	font-family: "Palatino Linotype", serif;
+
+
+
+}
+
+header {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	width:100%;
+	height:10%;
+	background-color:rgba(0, 0, 0, .8);
+}
+
+#music_icon {
+	position: absolute;
+	top:5px;
+	left:20px;
+	cursor: pointer;
+	color:rgb(135,206,250);
+	transition-property: transform;
+	transition-duration: 1s;
+
+}
+#music_icon:hover{
+	transform: scale(1.1);
+}
+h1 {
+	font-family: "Bleeding Cowboys";
+	letter-spacing: 2px;
+	font-size: 300%;
+	margin-left:20%;
+	color: rgb(0, 206, 209);
+	cursor: pointer;
+	text-shadow:4px -4px 3px rgb(0, 0, 0) ;
+	transition-property: text-shadow;
+	transition-duration: 1s;
+}
+h1:hover {
+	text-shadow: -4px 4px 3px rgb(0, 0, 0);
+}
+
+
+
+body {
+	width: 100%;
+	
+	background-image: url(../images/background4.jpg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	
+}
+
+/*Screen One*/
+aside.overlay{
+	position: absolute;
+	top:40%;
+	width: 100%;
+	height: 40%;
+	background-color: rgba(0,0,0,.6);
+	text-align: center;
+	color: #fff;
+
+}
+p.intro {
+
+	max-width: 1000px;
+	margin-left: 15%;
+	font-size: 200%;
+}
+
+ .register-nav {
+	font-size: 140%;
+	margin-top: 15px;
+	display: inline-block;
+	border: none;
+	border-radius: 5px;
+	width:15%;
+	height:15%;
+	padding:10px;
+	background-color:rgba(0,255,255, .6);
+	color: rgba(255, 255, 255);
+	transition-property: box-shadow;
+	transition-duration: 1s;
+}
+
+ .register-nav:hover{
+	box-shadow: 0 0 8px 3px rgb(255,255,255);
+	cursor: pointer;
+}
+
+
+
+strong {
+	color: rgb(255,165,0);
+}
+
+/*Style for full name text box*/
+input[type="text"] {
+	margin-top:10px;
+	border: none;
+	border-radius: 15px;
+	padding:5px;
+	padding-left: 10px;
+	height: 50px;
+	width: 500px;
+	color: rgb(210,105,30);
+	font-size:200%;
+	font-family: "Lucida Console";
+	transition-property: box-shadow;
+	transition-duration: 1s;
+	
+}
+input[type="text"]:focus {
+	box-shadow: 0 0 8px 5px rgb(135,206,250);
+}
+
+
+.nameIcon {
+	color:rgb(135,206,250);
+}
+
+/*End of Screen one*/
+
+/*Screen Two*/
+nav.name_of_learner {
+	font-family: "Bleeding Cowboys";
+	color: rgb(135,206,250);
+	font-size:180%;
+	padding: 10px;
+	padding-left: 20px;
+	position: absolute;
+	top:10px;
+	left:20%;
+	width:55%;
+	height:5%;
+	border-left: 5px solid rgb(135,206,250);
+	border-radius: 10px;
+	background-color:rgba(0, 0, 0, .8);
+	cursor: pointer;
+	transition-property: box-shadow;
+	transition-duration: 1s;
+
+
+}
+
+/*Align the fa icons on the name of learner panel*/
+.fa-balance-scale, .fa-clock-o, .fa-thermometer-1{
+	margin-left: 5%;
+	margin-right: 10px;
+}
+div.fa-balance-scale {
+	margin:10px;
+	color: rgb(135,206,250);
+}
+
+/*Color for score and time, level */
+#score, .level {
+	color: yellow;
+}
+.time {
+	color:red;
+}
+nav.name_of_learner:hover {
+	box-shadow: 0 5px 10px #000;
+}
+/*Sets color for the user name and score*/
+nav .name, nav .score {
+	margin-left: 10px;
+	color:#fff;
+}
+
+/*Back to first screen icon*/
+div.backToFirstScreenIcon {
+	position: absolute;
+	top:10px;
+	right: 5%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+div.backToFirstScreenIcon:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px 5px rgb(135,206,250); 
+}
+
+/*Tutorial and drill options*/
+section.outerWrapper {
+	width: 100%;
+	position:absolute;
+	top:30%;
+	width: 100%;
+	height: 55%;
+	background-color: rgba(0,0,0,.6);
+}
+/*rgba(96, 125, 139, .4); color for tutorials background*/
+
+/*Inner wrapper and leftOption Menu*/
+section div.leftOptionMenu{
+	float:left;
+	width: 25%;
+	margin-left: 5%;
+
+}
+section section.innerWrapper{
+	float: right;
+	width: 60%;
+	margin-right: 5%;
+	margin-top: 1%;
+
+	
+}
+section div.middleOptionMenu {
+	float: left;
+	width: 40%;
+}
+section div.rightOptionMenu{
+	float: right;
+	width: 40%;
+	margin-right: 5%;
+}
+
+/*fa colors set to blue*/
+.option_menu_icon {
+	color: rgb(135,206,250);
+	margin-left: 30%;
+	margin-top:5%;
+}
+
+section div.leftOptionMenu, section div.middleOptionMenu, section div.rightOptionMenu{
+
+	border: 2px solid rgb(135,206,250);
+	padding: 1%;
+	margin-top:2%;
+	cursor: pointer;
+	transition-property: all;
+	transition-duration: 2s;
+
+}
+
+section div.leftOptionMenu:hover, section div.middleOptionMenu:hover, section div.rightOptionMenu:hover{
+transform: scale(1.1);
+box-shadow: 0 0 8px 5px rgb(135,206,250);
+}
+span.optionMenuTitle {
+	display: inline-block;
+	width: 100%;
+	color: orange;
+	height: 2%;
+	font-size: large;
+	font-weight: bold;
+	font-variant: small-caps;
+	padding: 1px;
+
+}
+
+hr {
+	height: 5px;
+	width: 100%;
+	
+	background-color:rgb(255,165,0);
+}
+
+figcaption.optionMenuDescription {
+	font-family: "Palatino Linotype";
+	color: #fff;
+	font-size: x-large;
+	font-weight: bold;
+	margin: 5px;
+	font-style: italic;
+}
+/*End of Screen Two*/
+/*class room tutorials interface*/
+.navLeftInput {
+		width:15%;
+		background-color: rgba(0,0,0,.6);
+		position: absolute;
+		top:10%;
+		left:0;
+		border-radius: 10px;
+		height: auto;
+		margin-left: 0px;
+		z-index: 100;
+	}
+	.navRightOutput {
+		width:15%;
+		background-color: rgba(0,0,0,.6);
+		position: absolute;
+		top:12%;
+		right:0;
+		border-radius: 10px;
+		height: auto;
+		margin-right: 0px;
+		z-index: 100;
+	}
+	.navLeftInput  ul, .navRightOutput ul {
+		list-style-type: none;
+		
+	}
+	.navLeftInput ul {
+		margin-left: -25px;
+	}
+	.navRightOutput ul{
+		margin-left: -15px;
+	}
+	.navLeftInput li {
+		color: #fff;
+		font-size: large;
+		text-align: center;
+		font-family: "Palatino Linotype";
+		display: block;
+		width: 150px;
+		border: 1px solid rgb(135,206,250) ;
+		padding: 5px;
+		margin: 5px 20px 5px 15px;
+		cursor: pointer;
+		transition-property: box-shadow, scale;
+		transition-duration: .5s;
+	}
+	.navRightOutput li{
+		color: #fff;
+		font-size: large;
+		font-family: "Palatino Linotype";
+		width: 150px;
+		text-align: center;
+		display: block;
+		border: 1px solid rgb(135,206,250) ;
+		padding: 10px;
+		margin: 10px;
+		margin-right: 5px;
+		cursor: pointer;
+		transition-property: box-shadow, scale;
+		transition-duration: .5s;
+	}
+	.navLeftInput li:hover, .navRightOutput li:hover{
+		transform: scale(1.1);
+		box-shadow: 0 0 8px 5px rgb(135,206,250);
+
+	}
+	.navLeftInput a, .navRightOutput a {
+		color: #000;
+		text-decoration: none;
+		color: #fff;
+		text-align: center;
+
+	}
+	.navLeftInput .categoryTitle, .navRightOutput .categoryTitle {
+		border: 2px solid rgb(255,165,0) ;
+		font-size: x-large;
+		padding: 5px;
+		transform: scale(1.1);
+		box-shadow: 0 0 8px 5px rgb(135,206,250);
+	}
+
+.navCenterDisplay {
+	background-color: rgba(255,240,245, .4);
+	/*opacity: .4;*/
+	position: absolute;
+	top:15%;
+	left: 0;
+	right: 0;
+	height: 60%;
+	z-index: 50;
+	cursor: pointer;
+	border:1px solid rgba(0,0,0,.4);
+	transition-property: border;
+	transition-duration: .5s;
+}
+.navCenterDisplay:hover {
+	border:2px solid rgb(135,206,250);
+}
+
+/*Back to option menu screen icon*/
+div.backToOptionScreenIcon {
+	position: absolute;
+	top:10px;
+	right: 5%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+div.backToOptionScreenIcon:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px 5px rgb(135,206,250); 
+}
+
+/*placement style for images*/
+.navCenterDisplay img {
+	padding: 10px;
+	padding-left: 20%;
+	padding-right: 10%;
+
+}
+/*End of Class room interface*/
+
+/*Image Slide Interface*/
+.firstLevelSceneItems, .secondLevelSceneItemsUp, .thirdLevelSceneItemsUp, .secondLevelSceneItemsDown, .thirdLevelSceneItemsDown {
+		margin-left: 10%;
+		margin-top: 5%;
+	}
+
+
+
+	.firstLevelSceneItems table,.secondLevelSceneItemsUp table, .thirdLevelSceneItemsUp table, .secondLevelSceneItemsDown table, .thirdLevelSceneItemsDown table  {
+		padding-top: 20px;
+		width: 90%;
+		height: 50px;
+		border-radius: 10px;
+		background-color: rgba(0,0,0,.6);
+		margin-left: 30px;
+		font-family: "Palatino Linotype";
+		font-size: x-large;
+		color:rgb(255,255,255);
+		cursor: pointer;
+		transition-property: box-shadow;
+		transition-duration: 1s;
+	}
+	.firstLevelSceneItems table:hover, .secondLevelSceneItemsUp table:hover, .thirdLevelSceneItemsUp table:hover, .secondLevelSceneItemsDown table:hover, .thirdLevelSceneItemsDown table:hover{
+		box-shadow: 0 5px 10px #000;
+	}
+
+	.firstLevelSceneItems table th,.secondLevelSceneItemsUp table th, .thirdLevelSceneItemsUp table th, .secondLevelSceneItemsDown table th, .thirdLevelSceneItemsDown table th{
+		width: 30%;
+	border: 2px solid rgb(135,206,250);
+	}
+
+	.firstLevelSceneItems ul, .secondLevelSceneItemsUp ul, .thirdLevelSceneItemsUp ul, .secondLevelSceneItemsDown ul, .thirdLevelSceneItemsDown ul{
+		margin-top: 10px;
+	}
+	.firstLevelSceneItems ul li, .secondLevelSceneItemsUp ul li, .thirdLevelSceneItemsUp ul li, .secondLevelSceneItemsDown ul li, .thirdLevelSceneItemsDown ul li {
+		list-style-type: none;
+		display: inline;
+		height: 300px;
+		width: 30%;
+		border: 5px solid rgba(0,0,0,.4);
+		float: left;
+		border-radius: 10px;
+		transition-property: transform;
+		transition-duration: 1s;
+		cursor: pointer;
+	}
+	.firstLevelSceneItems ul li:hover, .secondLevelSceneItemsUp ul li:hover, .thirdLevelSceneItemsUp ul li:hover, .secondLevelSceneItemsDown ul li:hover, .thirdLevelSceneItemsDown ul{
+		transform: scale(1.03);
+	}
+
+/*Back to option menu screen icon*/
+div.menuIconForImageSlide {
+	position: absolute;
+	top:10px;
+	right: 5%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+/*Displays info about the game*/
+div.gameInfo{
+	position: absolute;
+	top:10px;
+	right: 10%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+
+}
+
+div.gameInfo:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px 5px rgb(135,206,250);
+}
+div.menuIconForImageSlide:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px 5px rgb(135,206,250); 
+}
+/*color of game win icon in dialog*/
+.fa-handshake-o {
+	color: green;
+	margin-left: 70px;
+}
+.fa-smile-o {
+	color: rgb(135,206,250);
+	margin-left: 70px;
+}
+/*Win dialog items*/
+span.pointsMessage {
+	color: green;
+	font-weight: bold;
+}
+strong.levelMessage {
+	margin-left: 10px;
+}
+
+/*Score Arena*/
+div.scoreArena {
+	color: rgb(135,206,250);
+	font-size:160%;
+	padding: 10px;
+	padding-left: 20px;
+	position: absolute;
+	top:100px;
+	left:20%;
+	width:55%;
+	height:60%;
+	border-left: 5px solid rgb(135,206,250);
+	border-right: 5px solid rgb(135,206,250);
+	border-radius: 10px;
+	background-color:rgba(0, 0, 0, .8);
+	cursor: pointer;
+	transition-property: box-shadow;
+	transition-duration: 1s;
+
+}
+div.scoreArena:hover {
+	box-shadow: 0 5px 10px #000;
+}
+
+/*h2 style for arena*/
+div.scoreArena fa-balance-scale {
+	margin:10px;
+}
+div.scoreArena h2 {
+	text-align: center;
+
+}
+div.scoreArena .arenaTitle{
+	margin-top: 10px;
+	color: yellow;
+	font-family: "Bleeding Cowboys";
+	font-size: 180%;
+}
+.levelOneScore, .levelTwoScore, .levelThreeScore, .totalScore {
+	color:#fff;
+	font-family: "Bleeding Cowboys";
+	margin-left: 90px;
+}
+.bonusScore {
+	color:#fff;
+	font-family: "Bleeding Cowboys";
+	margin-left: 10px;
+}
+div.scoreArena nav{
+	margin-left: 20px;
+}
+div.scoreArena h3 {
+	color: silver;
+	text-align: center;
+}
+div.scoreArena h3 .fa{
+	margin-right: 10px;
+}
+div.scoreArena #totalScore{
+	color: yellow;
+}
+div.scoreArena .totalScore{
+	color: red;
+}
+
+
+
+/*Back to option menu screen icon, exit score arena*/
+div.exitScoreArena {
+	position: absolute;
+	top:10px;
+	right: 5%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+div.exitScoreArena:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 8px 5px rgb(135,206,250); 
+}
+
+/*Media query for smaller screens*/
+/*
+@media (max-width: 1000px){
+
+h1 {
+	
+	margin-left: 9%;
+}
+p.intro {
+	margin-left: 16%;
+	font-size: 200%;
+}
+
+form.input_fullname {
+	margin-left: 7%;
+
+}
+
+.register_nav {
+	margin-left: 10%;
+	height:10%;
+}
+input[type="text"]{
+	width:20px;
+	width:500px;
+}
+}
+*/
+/*media style for much smaller screens*/
+@media (min-width: 480px) and (max-width: 1200px){
+	h1 {
+	margin-top: 10px;
+	font-size:200%;
+	margin-left: 10%;
+}
+p.intro {
+	margin-left: 10%;
+	font-size: 160%;
+}
+
+form.input_fullname {
+	margin-left: 10%;
+
+}
+
+.register_nav {
+	margin-left: 10%;
+	height:10%;
+}
+input[type="text"]{
+	width:20px;
+	width:300px;
+	font-size: 18px;
+}
+
+
+
+/*Options Screen stylses*/
+nav.name_of_learner {
+	font-family: "Bleeding Cowboys";
+	color: rgb(135,206,250);
+	font-size:140%;
+	padding: 10px;
+	padding-left: 10px;
+	position: absolute;
+	top:10px;
+	left:8%;
+	width:80%;
+	height:5%;
+	border-left: 5px solid rgb(135,206,250);
+	border-radius: 10px;
+	background-color:rgba(0, 0, 0, .8);
+	cursor: pointer;
+	transition-property: box-shadow;
+	transition-duration: 1s;
+
+
+}
+/*Align the fa icons on the name of learner panel*/
+.fa-balance-scale, .fa-clock-o, .fa-thermometer-1{
+	margin-left: 2%;
+	margin-right: 5px;
+}
+div.fa-balance-scale {
+	margin:5px;
+	color: rgb(135,206,250);
+}
+
+/*Tutorial and drill options*/
+section.outerWrapper {
+	width: 100%;
+	position:absolute;
+	top:20%;
+	width: 100%;
+	height: 60%;
+	background-color: rgba(0,0,0,.6);
+}
+
+figcaption.optionMenuDescription {
+	font-family: "Palatino Linotype";
+	color: #fff;
+	font-size: large;
+	font-weight: bold;
+	margin: 5px;
+	font-style: italic;
+}
+
+
+/*Inner wrapper and leftOption Menu*/
+section div.leftOptionMenu{
+	float:left;
+	width: 25%;
+	margin-left: 2%;
+
+}
+section section.innerWrapper{
+	float: right;
+	width: 60%;
+	margin-right: 2%;
+	margin-top: 1%;
+
+	
+}
+section div.middleOptionMenu {
+	float: left;
+	width: 40%;
+}
+section div.rightOptionMenu{
+	float: right;
+	width: 40%;
+	margin-right: 5%;
+}
+
+/*Score Arena*/
+div.scoreArena {
+	color: rgb(135,206,250);
+	font-size:140%;
+	padding: 10px;
+	padding-left: 20px;
+	position: absolute;
+	top:100px;
+	left:20%;
+	width:55%;
+	height:60%;
+	border-left: 5px solid rgb(135,206,250);
+	border-right: 5px solid rgb(135,206,250);
+	border-radius: 10px;
+	background-color:rgba(0, 0, 0, .8);
+	cursor: pointer;
+	transition-property: box-shadow;
+	transition-duration: 1s;
+
+}
+
+/*Arena title for Score Arena*/
+div.scoreArena .arenaTitle{
+	margin-top: 10px;
+	color: yellow;
+	font-family: "Bleeding Cowboys";
+	font-size: 160%;
+}
+
+/*Displays info about the game*/
+div.gameInfo{
+	position: absolute;
+	top:80px;
+	right: 1%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+
+}
+
+/*Back to first screen icon*/
+div.backToFirstScreenIcon {
+	position: absolute;
+	top:10px;
+	right: 1%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+#music_icon {
+	position: absolute;
+	top:5px;
+	left:10px;
+	cursor: pointer;
+	color:rgb(135,206,250);
+	transition-property: transform;
+	transition-duration: 1s;
+
+}
+
+/*Back to option menu screen icon, exit score arena*/
+div.exitScoreArena {
+	position: absolute;
+	top:10px;
+	right: 1%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+/*Back to option menu screen icon*/
+div.menuIconForImageSlide {
+	position: absolute;
+	top:10px;
+	right: 1%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 5px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+/*Back to option menu screen icon*/
+div.backToOptionScreenIcon {
+	position: absolute;
+	top:10px;
+	right: 1%;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .6);
+	color: rgb(135,206,250);
+	padding: 3px;
+	cursor: pointer;
+	transition-property: box-shadow, transform;
+	transition-duration: 1s;
+}
+
+/*class room tutorials interface*/
+.navLeftInput {
+		width:16%;
+		background-color: rgba(0,0,0,.6);
+		position: absolute;
+		top:10%;
+		left:0;
+		border-radius: 10px;
+		height: auto;
+		margin-left: 0px;
+		z-index: 100;
+	}
+	.navRightOutput {
+		width:15%;
+		background-color: rgba(0,0,0,.6);
+		position: absolute;
+		top:20%;
+		right:0;
+		border-radius: 10px;
+		height: auto;
+		margin-right: 0px;
+		z-index: 100;
+	}
+	.navLeftInput  ul, .navRightOutput ul {
+		list-style-type: none;
+		
+	}
+	.navLeftInput ul {
+		margin-left: -25px;
+	}
+	.navRightOutput ul{
+		margin-left: -25px;
+	}
+	.navLeftInput li {
+		color: #fff;
+		font-size: 16px;
+		/*text-align: center;*/
+		font-family: "Palatino Linotype";
+		display: block;
+		width: 100px;
+		border: 1px solid rgb(135,206,250) ;
+		padding: 5px;
+		margin: 5px 20px 5px 10px;
+		cursor: pointer;
+		transition-property: box-shadow, scale;
+		transition-duration: .5s;
+	}
+	.navRightOutput li{
+		color: #fff;
+		font-size: 16px;
+		font-family: "Palatino Linotype";
+		width: 100px;
+		/*text-align: center;*/
+		display: block;
+		border: 1px solid rgb(135,206,250) ;
+		padding: 5px;
+		margin: 10px;
+		margin-right: 5px;
+		cursor: pointer;
+		transition-property: box-shadow, scale;
+		transition-duration: .5s;
+	}
+	.navLeftInput li:hover, .navRightOutput li:hover{
+		transform: scale(1.1);
+		box-shadow: 0 0 8px 5px rgb(135,206,250);
+
+	}
+	.navLeftInput a, .navRightOutput a {
+		color: #000;
+		text-decoration: none;
+		color: #fff;
+		/*text-align: center;*/
+
+	}
+	.navLeftInput .categoryTitle, .navRightOutput .categoryTitle {
+		border: 1px solid rgb(255,165,0) ;
+		font-size: large;
+		padding: 2px;
+		transform: scale(1.1);
+		box-shadow: 0 0 8px 5px rgb(135,206,250);
+	}
+
+	.navCenterDisplay {
+	background-color: rgba(255,240,245, .4);
+	/*opacity: .4;*/
+	position: absolute;
+	top:20%;
+	left: 0;
+	right: 0;
+	height: 60%;
+	z-index: 50;
+	cursor: pointer;
+	border:1px solid rgba(0,0,0,.4);
+	transition-property: border;
+	transition-duration: .5s;
+}
+
+}

@@ -1,0 +1,53 @@
+/*Fonts*/
+@font-face {
+	font-family: "Bleeding Cowboys";
+	src: url("../fonts/Bleeding_Cowboys.ttf") format("truetype");
+
+}
+@font-face {
+	font-family: "Modern Pictogram";
+	src: url("../fonts/morden_pics/modernpics-webfont.ttf") format("truetype");
+}
+@font-face{
+	font-family:"Fiolex Girls";
+	src: url("../fonts/Fiolex_Girl.ttf") format("truetype");
+}
+/*End of Fonts*/
+
+#music_icon {
+	position: absolute;
+	top:0;
+	left:20px;
+	cursor: pointer;
+	opacity: .4;
+
+}
+#music_icon:hover{
+	opacity:1;
+}
+nav a.heading {
+	font-family: "Bleeding Cowboys";
+	letter-spacing: 2px;
+	font-size: 300%;
+	color: rgb(0, 206, 209);
+	cursor: pointer;
+	text-shadow:4px -4px 3px rgb(0, 0, 0) ;
+	
+}
+.heading:hover {
+	text-shadow: -4px 4px 3px rgb(0, 0, 0);
+}
+
+.parallax-container {
+      height:900px;
+    }
+.nav-wrapper {
+	opacity: .8;
+}
+body {
+	
+	
+	background-image: url(../images/background4.jpg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
